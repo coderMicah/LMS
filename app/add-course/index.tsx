@@ -1,10 +1,24 @@
-import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
 import Colors from "@/constants/Colors";
 import { generateTopicsWithAI } from "@/config/geminiConfig";
+import { generateCourse, generateTopics } from "@/ai";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/config/firebaseConfig";
+import { create } from "domain";
+import { useUserDetail } from "@/context/UserDetailContext";
+import { router } from "expo-router";
 
 const AddCourse = () => {
+  const { userDetail } = useUserDetail();
   const [loading, setLoading] = useState(false);
   const [courseGenerating, setCourseGenerating] = useState(false);
   const [promptInput, setPromptInput] = useState("");
@@ -28,19 +42,10 @@ const AddCourse = () => {
   };
 
   const onGenarateTopic = async () => {
-    setCourseGenerating(true);
-    //Generate Course With AI
-    // const topics = await generateTopicsWithAI({ topic: promptInput });
-    // if (topics) {
-    //   setTopics(JSON.parse(topics));
-    // }
-
-    setCourseGenerating(false);
-  };
-
-  const onGenarateCourse = async () => {
     setLoading(true);
-    const topics = await generateTopicsWithAI({ topic: promptInput });
+    // Generate Course With AI
+    const topics = await generateTopics(promptInput);
+    // const topics = await generateTopicsWithAI({ topic: promptInput });
     if (topics) {
       setTopics(JSON.parse(topics));
     }
@@ -48,10 +53,31 @@ const AddCourse = () => {
     setLoading(false);
   };
 
-  console.log(selectedTopics, "selectedTopics");
+  const onGenarateCourse = async () => {
+    setCourseGenerating(true);
+
+    try {
+      const courses = await generateCourse(selectedTopics);
+       
+      //Save Course to DB
+      courses.Courses?.forEach(async (course: any) => {
+        await setDoc(doc(db, "Courses", Date.now().toString()), {
+          ...course,
+          createdAt: Date.now(),
+          createdBy: userDetail?.email,
+        });
+      });
+      setCourseGenerating(false);
+
+      router.push("/(tabs)/home");
+    } catch (error) {
+      setCourseGenerating(false);
+      console.error("Error generating course:", error);
+    }
+  };
 
   return (
-    <View style={{ padding: 25, flex: 1 }}>
+    <ScrollView style={{ padding: 25, flex: 1 }}>
       <Text style={{ fontFamily: "Outfit-Bold", fontSize: 30 }}>
         Create New Course
       </Text>
@@ -112,7 +138,7 @@ const AddCourse = () => {
                       ? Colors.PRIMARY
                       : undefined,
                     color: isSelected(topic) ? Colors.WHITE : undefined,
-                    borderColor:isSelected(topic) ? Colors.WHITE : undefined,
+                    borderColor: isSelected(topic) ? Colors.WHITE : undefined,
                   }}
                 >
                   {topic}
@@ -123,13 +149,13 @@ const AddCourse = () => {
 
           <Button
             type="fill"
-            onPress={() => {}}
+            onPress={() => onGenarateCourse()}
             text="Generate Course"
-            loading={false}
+            loading={courseGenerating}
           />
         </>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
