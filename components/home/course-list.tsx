@@ -1,8 +1,16 @@
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { imageAssets } from "@/constants/Option";
 import { Course } from "@/types";
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const CourseList = ({ courseList }: { courseList: Course[] }) => {
   return (
@@ -14,7 +22,17 @@ const CourseList = ({ courseList }: { courseList: Course[] }) => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }: { item: Course; index: number }) => (
-          <View key={index} style={styles.courseContainer}>
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                // @ts-ignore
+                pathname: "/course-view",
+                params: { courseParams: JSON.stringify(item) },
+              })
+            }
+            key={index}
+            style={styles.courseContainer}
+          >
             <Image
               source={imageAssets[item.banner_image]}
               style={{ width: "100%", height: 150, borderRadius: 15 }}
@@ -35,8 +53,8 @@ const CourseList = ({ courseList }: { courseList: Course[] }) => {
             <View
               style={{
                 display: "flex",
-                flexDirection:"row",
-                gap:5,
+                flexDirection: "row",
+                gap: 5,
                 alignItems: "center",
                 marginTop: 4,
               }}
@@ -50,7 +68,7 @@ const CourseList = ({ courseList }: { courseList: Course[] }) => {
                 {item.Chapters.length} Chapters
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

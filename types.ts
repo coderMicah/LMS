@@ -12,7 +12,7 @@ type ChapterContent = {
     example: string | null;
 };
 
-type Chapter = {
+export type Chapter = {
     chapterName: string;
     content: ChapterContent[];
 };
