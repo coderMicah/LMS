@@ -18,6 +18,7 @@ import CourseList from "@/components/home/course-list";
 import { Course } from "@/types";
 import PracticeSection from "@/components/home/practice-section";
 import CourseProgress from "@/components/home/course-progress";
+import { isValidCourse } from "@/helpers/utils";
 
 const Home = () => {
   const { userDetail } = useUserDetail();
@@ -105,17 +106,3 @@ const Home = () => {
 
 export default Home;
 
-const isValidCourse = (data: DocumentData): data is Course => {
-  return (
-    typeof data.courseTitle === "string" &&
-    typeof data.description === "string" &&
-    typeof data.banner_image === "string" &&
-    typeof data.createdAt === "number" &&
-    typeof data.createdBy === "string" &&
-    Array.isArray(data.Chapters) &&
-    Array.isArray(data.quizzes) &&
-    Array.isArray(data.flashcards) &&
-    Array.isArray(data.projects) &&
-    Array.isArray(data.qa)
-  );
-};

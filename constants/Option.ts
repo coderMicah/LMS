@@ -2,21 +2,25 @@ import { ImageSourcePropType } from "react-native";
 
 export interface IPracticeOption{
     name:string;
-    image:ImageSourcePropType | undefined
+    image:ImageSourcePropType | undefined;
+    icon:ImageSourcePropType | undefined;
 }
 
 export const practiceOption :IPracticeOption[] = [
     {
         name: "Quiz",
-        image: require("@assets/images/quizz.png")
+        image: require("@assets/images/quizz.png"),
+        icon:require("@assets/images/quiz.png"),
     },
     {
         name: "Flashcard",
-        image: require("@assets/images/flashcard.png")
+        image: require("@assets/images/flashcard.png"),
+        icon:require("@assets/images/layers.png"),
     },
     {
         name: "Question & Answers",
-        image: require("@assets/images/notes.png")
+        image: require("@assets/images/notes.png"),
+        icon:require("@assets/images/qa.png"),
     },
 ]
 

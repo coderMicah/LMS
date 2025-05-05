@@ -1,6 +1,7 @@
 import Colors from "@/constants/Colors";
 import { IPracticeOption, practiceOption } from "@/constants/Option";
-import { View, Text, FlatList, Image } from "react-native";
+import { router } from "expo-router";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 
 const PracticeSection = () => {
   return (
@@ -19,7 +20,8 @@ const PracticeSection = () => {
           }) => {
             const isMiddle = index % 3 === 1;
             return (
-              <View
+              <TouchableOpacity
+               onPress={() => router.push(`/practice/${item.name}`)}
                 key={index}
                 style={{
                   flex: 1,
@@ -60,7 +62,7 @@ const PracticeSection = () => {
                 >
                   {item.name}
                 </Text>
-              </View>
+              </TouchableOpacity>
             );
           }}
         />
