@@ -35,7 +35,7 @@ const PracticeSection = () => {
                     backgroundColor: Colors.BLACK,
                     zIndex: 10,
                     borderRadius: 15,
-                    opacity: 0.2,
+                    opacity: 0.1,
                   }}
                 />
                 <Image

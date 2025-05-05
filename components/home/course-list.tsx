@@ -26,8 +26,8 @@ const CourseList = ({ courseList }: { courseList: Course[] }) => {
             onPress={() =>
               router.push({
                 // @ts-ignore
-                pathname: "/course-view",
-                params: { courseParams: JSON.stringify(item) },
+                pathname: `/course-view/${item.docId}`,
+                params: { courseParams: JSON.stringify(item),courseId: item.docId },
               })
             }
             key={index}

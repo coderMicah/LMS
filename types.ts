@@ -5,11 +5,12 @@ export interface IUserData {
     user: string | undefined
 }
 
-type ChapterContent = {
+export type ChapterContent = {
     topic: string;
     explain: string;
     code: string | null;
     example: string | null;
+    // docId:string
 };
 
 export type Chapter = {
@@ -44,11 +45,13 @@ export type Course = {
     banner_image: string;
     createdAt: number;
     createdBy: string;
+    docId: string;
     Chapters: Chapter[];
     flashcards: Flashcard[];
     qa: QA[];
     quizzes: Quiz[];
     projects: Project[];
+    completedChapter:string[]
 };
 
 export type CourseData = {

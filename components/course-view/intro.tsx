@@ -8,6 +8,7 @@ import { router } from "expo-router";
 
 const Intro = ({ course }: { course: Course }) => {
   return (
+    
     <View>
       <Pressable
         style={{ position: "absolute", zIndex: 10, padding: 10 }}

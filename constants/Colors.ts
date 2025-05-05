@@ -9,5 +9,6 @@ export default {
   BLACK: "#000000",
   PRIMARY: "#0075FF",
   GRAY:"#858585",
-  BG_GRAY:"#f2f2f2"
+  BG_GRAY:"#f2f2f2",
+  GREEN:"#00FF00",
 };

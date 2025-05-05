@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
 import Colors from "@/constants/Colors";
-import { generateTopicsWithAI } from "@/config/geminiConfig";
+
 import { generateCourse, generateTopics } from "@/ai";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/config/firebaseConfig";
@@ -61,10 +61,12 @@ const AddCourse = () => {
        
       //Save Course to DB
       courses.Courses?.forEach(async (course: any) => {
-        await setDoc(doc(db, "Courses", Date.now().toString()), {
+        const docId = Date.now().toString() ;
+        await setDoc(doc(db, "Courses",docId), {
           ...course,
           createdAt: Date.now(),
           createdBy: userDetail?.email,
+          docId:docId
         });
       });
       setCourseGenerating(false);

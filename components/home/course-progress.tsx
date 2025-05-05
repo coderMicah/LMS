@@ -22,7 +22,7 @@ const CourseProgress = ({ courseList }: { courseList: Course[] }) => {
             style={{
               marginHorizontal: index === 0 ? 0 : 7,
               padding: 15,
-              backgroundColor: Colors.BG_GRAY,
+              backgroundColor: Colors.WHITE,
               width: 250,
               borderRadius: 15,
             }}
@@ -53,9 +53,10 @@ const CourseProgress = ({ courseList }: { courseList: Course[] }) => {
             </View>
 
             <View style={{ marginTop: 10 }}>
-              <Progress.Bar progress={0.3} width={225} />
+              <Progress.Bar progress={getCompletedChapters(item)} width={225} />
               <Text style={{ fontFamily: "Outfit", marginTop: 3 }}>
-                3 out of 5 chapters completed
+                {item.completedChapter.length ?? 0} out of{" "}
+                {item.Chapters.length} chapters completed
               </Text>
             </View>
           </View>
@@ -66,3 +67,7 @@ const CourseProgress = ({ courseList }: { courseList: Course[] }) => {
 };
 
 export default CourseProgress;
+
+const getCompletedChapters = (item: Course) => {
+  return item.completedChapter.length / item.Chapters.length;
+};

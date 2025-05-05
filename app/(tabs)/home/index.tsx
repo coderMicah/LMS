@@ -1,4 +1,4 @@
-import { View, Platform, FlatList } from "react-native";
+import { View, Platform, FlatList, Image } from "react-native";
 import HomeHeader from "@/components/home/header";
 import Colors from "@/constants/Colors";
 import NoCourse from "@/components/home/no-course";
@@ -22,6 +22,7 @@ import CourseProgress from "@/components/home/course-progress";
 const Home = () => {
   const { userDetail } = useUserDetail();
   const [courseList, setCourseList] = useState<Course[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (userDetail) {
@@ -30,6 +31,7 @@ const Home = () => {
   }, [userDetail]);
 
   const getCourseList = async () => {
+    setRefreshing(true);
     setCourseList([]);
     const q = query(
       collection(db, "Courses"),
@@ -57,31 +59,44 @@ const Home = () => {
         console.error("Invalid course data:", courseData);
       }
     });
+
+    setRefreshing(false);
   };
 
   return (
     <FlatList
       data={[]}
+      refreshing={refreshing}
+      onRefresh={() => getCourseList()}
       renderItem={() => null}
       ListHeaderComponent={
         <View
           style={{
-            padding: 25,
-            paddingTop: Platform.OS === "ios" ? 45 : undefined,
             flex: 1,
             backgroundColor: Colors.WHITE,
           }}
         >
-          <HomeHeader />
-          {courseList.length === 0 ? (
-            <NoCourse />
-          ) : (
-            <View>
-              <CourseProgress courseList={courseList} />
-              <PracticeSection />
-              <CourseList courseList={courseList} />
-            </View>
-          )}
+          <Image
+            source={require("@assets/images/wave.png")}
+            style={{ position: "absolute", width: "100%", height: 700 }}
+          />
+          <View
+            style={{
+              padding: 25,
+              paddingTop: Platform.OS === "ios" ? 45 : undefined,
+            }}
+          >
+            <HomeHeader />
+            {courseList.length === 0 ? (
+              <NoCourse />
+            ) : (
+              <View>
+                <CourseProgress courseList={courseList} />
+                <PracticeSection />
+                <CourseList courseList={courseList} />
+              </View>
+            )}
+          </View>
         </View>
       }
     />
