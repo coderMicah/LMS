@@ -11,4 +11,5 @@ export default {
   GRAY:"#858585",
   BG_GRAY:"#f2f2f2",
   GREEN:"#00FF00",
+  LIGHT_GREEN:"#DBFFDD",
 };

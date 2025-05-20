@@ -1,9 +1,11 @@
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Course } from "@/types";
 import { IPracticeOption } from "@/constants/Option";
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { json } from "stream/consumers";
 
 interface props {
   courseList: Course[];
@@ -11,6 +13,15 @@ interface props {
 }
 
 const CourseGrid = ({ courseList, option }: props) => {
+  const onpress = (item: Course) => {
+    if (option.name === "Quiz") {
+      router.push({
+        // @ts-ignore
+        pathname: "/practice/quiz",
+        params: { courseParams: JSON.stringify(item) },
+      });
+    }
+  }
   return (
     <View>
       <FlatList
@@ -18,7 +29,8 @@ const CourseGrid = ({ courseList, option }: props) => {
         numColumns={2}
         style={{ padding: 20 }}
         renderItem={({ item, index }: { item: Course; index: number }) => (
-          <View
+          <TouchableOpacity
+           onPress={() => onpress(item)}
             key={index}
             style={{
               flex: 1,
@@ -53,7 +65,7 @@ const CourseGrid = ({ courseList, option }: props) => {
             >
               {item.courseTitle}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

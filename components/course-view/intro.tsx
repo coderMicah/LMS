@@ -12,7 +12,7 @@ const Intro = ({ course }: { course: Course }) => {
     <View>
       <Pressable
         style={{ position: "absolute", zIndex: 10, padding: 10 }}
-        onPress={() => {router.back()}}
+        onPress={() => {router.replace("/")}}
       >
         <Ionicons name="arrow-back" size={32} />
       </Pressable>

@@ -28,7 +28,7 @@ type QA = {
     answer: string;
 };
 
-type Quiz = {
+export type Quiz = {
     question: string;
     options: string[];
     correctAns: string;

@@ -13,7 +13,7 @@ export const generateCourse = async (selectedTopics: string[]) => {
         // schema: courseBuilderPromptConfig.responseSchema,
         thinkingBudget: 0,
       });
-      console.log(JSON.parse(response));
+
       
   
       return JSON.parse(response) // assuming it returns valid JSON
